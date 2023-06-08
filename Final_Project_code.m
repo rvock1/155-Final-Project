@@ -3,28 +3,27 @@ img = imread('selfie2.jpg');
 img = double(img) / 255;
 size(img)
 
-nrows = size(img,1);
-ncols = size(img,2);
-fill = 1;
+m = size(img,1);
+n = size(img,2);
 
-[xi,yi] = meshgrid(1:ncols,1:nrows);
+[xi,yi] = meshgrid(1:n,1:m);
 
-xt = xi - ncols/2;
-yt = yi - nrows/2;
+xt = xi - n/2;
+yt = yi - m/2;
 [theta,r] = cart2pol(xt,yt);
 
 a = 10; 
-rmax = max(r(:));
-s1 = r + r.^3*(a/rmax.^2);
+r_max = max(r(:));
+s = r + r.^3*(a/r_max.^2);
 
-[ut,vt] = pol2cart(theta,s1);
-ui = ut + ncols/2;
-vi = vt + nrows/2;
+[ut,vt] = pol2cart(theta,s);
+ui = ut + n/2;
+vi = vt + m/2;
 
-ifcn = @(c) [ui(:) vi(:)];
-tform = geometricTransform2d(ifcn);
+mapping = @(c) [ui(:) vi(:)];
+transform = geometricTransform2d(mapping);
 
-I_barrel = imwarp(img,tform,FillValues=fill);
+I_barrel = imwarp(img,transform,FillValues=fill);
 imshow(I_barrel)
 saveas(gcf,'barrel.png')
 %%
@@ -33,28 +32,27 @@ img = imread('selfie2.jpg');
 img = double(img) / 255;
 size(img)
 
-nrows = size(img,1);
-ncols = size(img,2);
-fill = 1;
+m = size(img,1);
+n = size(img,2);
 
-[xi,yi] = meshgrid(1:ncols,1:nrows);
+[xi,yi] = meshgrid(1:n,1:m);
 
-xt = xi - ncols/2;
-yt = yi - nrows/2;
+xt = xi - n/2;
+yt = yi - m/2;
 [theta,r] = cart2pol(xt,yt);
 
-a = 1000; 
-rmax = max(r(:));
-s1 = r + r.^3*(a/rmax.^2);
+a = 10; 
+r_max = max(r(:));
+s = r + r.^3*(a/r_max.^2);
 
-[ut,vt] = pol2cart(theta,s1);
-ui = ut + ncols/2;
-vi = vt + nrows/2;
+[ut,vt] = pol2cart(theta,s);
+ui = ut + n/2;
+vi = vt + m/2;
 
-ifcn = @(c) [ui(:) vi(:)];
-tform = geometricTransform2d(ifcn);
+mapping = @(c) [ui(:) vi(:)];
+transform = geometricTransform2d(mapping);
 
-I_barrel = imwarp(img,tform,FillValues=fill);
+I_barrel = imwarp(img,transform,FillValues=fill);
 imshow(I_barrel)
 saveas(gcf,'barrel3.png')
 
